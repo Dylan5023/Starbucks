@@ -87,3 +87,24 @@ promotionToggleBtn.addEventListener('click', function() {
   }
 });
 
+//random variable
+function random(min, max) {
+  return parseFloat((Math.random()* (min - max) + min).toFixed(2))
+};
+
+function floatingObject(selector, delay, size) {
+  gsap.to(
+    selector, //선택자
+    random(1.5, 2.5), // 애니메이션 시간
+    { // option
+      y: size,
+      repeat : -1,
+      yoyo : true,
+      ease: Power1.easeInOut,
+      delay: random(0, delay)
+    }
+  );
+}
+floatingObject('.floating1', 1, 15);
+floatingObject('.floating2', .5, 15);
+floatingObject('.floating3', 1.5, 20);
