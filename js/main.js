@@ -17,6 +17,7 @@ searchInputEl.addEventListener('blur', function() {
 
 
 const badgeEl = document.querySelector('header .badges');
+const toTopEl = document.querySelector('#to-top');
 
 window.addEventListener('scroll', _.throttle(function() {
   console.log('scroll');
@@ -27,6 +28,11 @@ window.addEventListener('scroll', _.throttle(function() {
       opacity: 0,
       display: 'none'
     }); 
+
+    //스크롤 버튼 보이기 
+    gsap.to(toTopEl, .2, {
+      x:0
+    })
    
   } else {
     // show badge
@@ -34,11 +40,23 @@ window.addEventListener('scroll', _.throttle(function() {
       opacity : 1,
       display: 'block'
 
-    });
-  
+    })
+    //스크롤 버튼 숨기기
+    gsap.to(toTopEl, .2, {
+      x:100
+    })
   }
 }, 300));
 // _.throttle(함수, 시간)
+
+// 상단으로 스크롤 버튼을 클릭하면,
+toTopEl.addEventListener('click', function () {
+  // 페이지 위치를 최상단으로 부드럽게(0.7초 동안) 이동.
+  gsap.to(window, .7, {
+    scrollTo: 0
+  })
+});
+
 
 
 //순차적으로 visual 보여지게 해주기 
@@ -74,6 +92,16 @@ new Swiper('.promotion .swiper-container', {
     nextEl: '.promotion .swiper-next'
   } 
 });
+new Swiper('.awards .swiper-container', {
+  autoplay: true, // 자동 재생 여부
+  loop: true, // 반복 재생 여부
+  spaceBetween: 30, // 슬라이드 사이 여백
+  slidesPerView: 5, // 한 번에 보여줄 슬라이드 개수
+  navigation: { // 슬라이드 이전/다음 버튼 사용 여부
+    prevEl: '.awards .swiper-prev', // 이전 버튼 선택자
+    nextEl: '.awards .swiper-next' // 다음 버튼 선택자
+  }
+});
 
 const promotionEl = document.querySelector('.promotion');
 const promotionToggleBtn = document.querySelector('.toggle-promotion');
@@ -108,3 +136,20 @@ function floatingObject(selector, delay, size) {
 floatingObject('.floating1', 1, 15);
 floatingObject('.floating2', .5, 15);
 floatingObject('.floating3', 1.5, 20);
+
+const spyEls = document.querySelectorAll('section.scroll-spy');
+spyEls.forEach(function (spyEl) {
+  new ScrollMagic
+    .Scene({
+      triggerElement: spyEl,
+      triggerHook: .8
+    })
+    .setClassToggle(spyEl, 'show')
+    .addTo(new ScrollMagic.Controller())
+});
+
+/**
+ * 올해가 몇 년도인지 계산
+ */
+ const thisYear = document.querySelector('.this-year');
+ thisYear.textContent = new Date().getFullYear();
